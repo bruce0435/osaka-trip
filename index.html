@@ -1,169 +1,417 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>大阪・神戶・京都 最終版 8 天行程</title>
+<title>大阪・神戶・京都 八日旅程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
-body{background:#fff;color:#111}
-.wrap{max-width:600px;margin:0 auto}
-.hdr{padding:1rem 1rem .6rem;border-bottom:1px solid #e5e5e5}
-.hdr h1{font-size:17px;font-weight:600;color:#111}
-.hdr p{font-size:12px;color:#888;margin-top:2px}
-.hotels{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.hc{font-size:11px;padding:3px 10px;border-radius:99px;border:1px solid}
-.hc1{background:#FEF3E2;color:#7C4A00;border-color:#F5C87A}
-.hc2{background:#EBF2FB;color:#163C72;border-color:#7AAEE8}
-.tabs{display:flex;overflow-x:auto;border-bottom:1px solid #e5e5e5;padding:0 .75rem;scrollbar-width:none}
+:root {
+  --sumi: #1a1a18;
+  --sumi2: #3d3d38;
+  --sumi3: #7a7a72;
+  --sumi4: #b8b8ae;
+  --sumi5: #e8e8e0;
+  --sumi6: #f4f4ee;
+  --sumi7: #fafaf6;
+  --washi: #f7f5ee;
+  --aka: #b5372a;
+  --aka2: #d4493a;
+  --aka-light: #f8eeec;
+  --midori: #2d6b4a;
+  --midori-light: #eaf2ec;
+  --kon: #2a4a7a;
+  --kon-light: #eaeff8;
+  --murasaki: #5a3a7a;
+  --murasaki-light: #f0eaf8;
+  --kin: #8a6a20;
+  --kin-light: #f8f0e0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{
+  background:var(--washi);
+  color:var(--sumi);
+  font-family:'Noto Sans TC',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── 背景紋理 ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(0,0,0,.018) 28px,rgba(0,0,0,.018) 29px),
+    repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(0,0,0,.012) 28px,rgba(0,0,0,.012) 29px);
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{max-width:640px;margin:0 auto;position:relative;z-index:1}
+
+/* ── 頁首 ── */
+.hdr{
+  padding:2rem 1.5rem 1.4rem;
+  border-bottom:1px solid var(--sumi5);
+  position:relative;
+}
+.hdr::after{
+  content:'';
+  position:absolute;
+  bottom:-3px;left:1.5rem;right:1.5rem;
+  height:1px;
+  background:linear-gradient(90deg,var(--aka),transparent 60%);
+}
+.hdr-en{
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sumi4);font-weight:400;margin-bottom:.5rem;
+}
+.hdr h1{
+  font-family:'Noto Serif TC',serif;
+  font-size:20px;font-weight:600;
+  color:var(--sumi);line-height:1.4;
+  letter-spacing:.04em;
+}
+.hdr-sub{
+  font-size:11px;color:var(--sumi3);margin-top:.35rem;
+  letter-spacing:.03em;
+}
+.hotels{display:flex;gap:6px;flex-wrap:wrap;margin-top:1rem}
+.hc{
+  font-size:10.5px;padding:3px 10px;border-radius:2px;
+  border:1px solid;letter-spacing:.02em;font-weight:400;
+}
+.hc1{background:var(--kin-light);color:var(--kin);border-color:rgba(138,106,32,.25)}
+.hc2{background:var(--kon-light);color:var(--kon);border-color:rgba(42,74,122,.25)}
+
+/* ── 分頁導航 ── */
+.tabs{
+  display:flex;overflow-x:auto;
+  padding:.5rem 1.5rem 0;
+  gap:.15rem;
+  scrollbar-width:none;
+  border-bottom:1px solid var(--sumi5);
+}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:8px 10px;font-size:12px;color:#999;cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;white-space:nowrap;text-align:center;line-height:1.3}
-.tab.on{color:#111;font-weight:600;border-bottom-color:#111}
-.tab small{display:block;font-size:10px;margin-top:1px;font-weight:400}
-.tab small.osaka{color:#C07800}.tab small.kyoto{color:#2A7A35}.tab small.kobe{color:#1A5AAA}.tab small.rinku{color:#6030A0}.tab small.tr{color:#aaa}
-.pane{display:none;padding:1rem}
+.tab{
+  flex-shrink:0;
+  padding:.55rem .7rem;
+  font-size:11.5px;
+  color:var(--sumi3);
+  cursor:pointer;border:none;
+  background:transparent;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  text-align:center;
+  line-height:1.3;
+  font-family:'Noto Sans TC',sans-serif;
+  font-weight:300;
+  transition:color .2s;
+  margin-bottom:-1px;
+}
+.tab small{display:block;font-size:9.5px;margin-top:2px;font-weight:400;letter-spacing:.04em}
+.tab.on{color:var(--sumi);font-weight:500;border-bottom-color:var(--aka)}
+.tab:hover:not(.on){color:var(--sumi2)}
+
+.tab small.osaka{color:var(--aka)}
+.tab small.kyoto{color:var(--midori)}
+.tab small.kobe{color:var(--kon)}
+.tab small.rinku{color:var(--murasaki)}
+.tab small.tr{color:var(--sumi4)}
+
+/* ── 面板 ── */
+.pane{display:none;padding:1.4rem 1.5rem}
 .pane.on{display:block}
-.hero{background:#f6f6f6;border-radius:10px;padding:.8rem 1rem;margin-bottom:.9rem;border:none}
+
+/* ── 日概覽卡片 ── */
+.hero{
+  margin-bottom:1.4rem;
+  padding:1.1rem 1.2rem;
+  background:#fff;
+  border:1px solid var(--sumi5);
+  border-left:3px solid var(--aka);
+  border-radius:2px;
+  position:relative;
+}
 .hero-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.hero h2{font-size:15px;font-weight:600;margin-top:2px;color:#111}
-.hero .dn{font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.06em}
-.hero p{font-size:12px;color:#666;margin-top:6px;line-height:1.6}
-.badge{font-size:11px;padding:2px 9px;border-radius:99px;border:1px solid;white-space:nowrap;flex-shrink:0}
-.badge.osaka{background:#FEF3E2;color:#7C4A00;border-color:#F5C87A}
-.badge.kyoto{background:#EDF6EE;color:#1A5C22;border-color:#86C98D}
-.badge.kobe{background:#EBF2FB;color:#163C72;border-color:#7AAEE8}
-.badge.rinku{background:#F3EEF9;color:#4A2080;border-color:#B89EE0}
-.badge.tr{background:#f0f0f0;color:#888;border-color:#ddd}
-.item{display:flex;cursor:pointer;border-radius:8px;transition:background .12s;margin-bottom:1px}
-.item:hover,.item.on{background:#f6f6f6}
-.il{width:60px;flex-shrink:0;padding:9px 0 9px 4px;display:flex;flex-direction:column;align-items:center}
-.it{font-size:10px;color:#aaa;font-weight:500;white-space:nowrap}
-.dc{display:flex;flex-direction:column;align-items:center;flex:1;margin-top:4px}
-.dot{width:9px;height:9px;border-radius:50%;border:2px solid #ddd;background:#f6f6f6;flex-shrink:0}
-.dot.s{border-color:#2E8B57;background:#EEF7F1}
-.dot.f{border-color:#E07B3A;background:#FEF0E4}
-.dot.m{border-color:#5A82C5;background:#EBF1FA}
-.dot.h{border-color:#9B59B6;background:#F4EEF9}
-.dot.sh{border-color:#D4537E;background:#FBEAF0}
-.dot.ap{border-color:#ccc;background:#f6f6f6}
-.ln{width:1px;flex:1;min-height:6px;background:#e5e5e5;margin-top:2px}
-.im{flex:1;padding:8px 10px 8px 4px}
-.im h3{font-size:13px;font-weight:600;color:#111}
-.im p{font-size:11px;color:#888;margin-top:1px}
-.dur{font-size:10px;color:#aaa;background:#f0f0f0;padding:1px 6px;border-radius:99px;display:inline-block;margin-top:3px;border:1px solid #e5e5e5}
-.detail{display:none;padding:0 10px 10px 4px}
+.hero-dn{
+  font-size:9.5px;color:var(--sumi4);
+  letter-spacing:.14em;text-transform:uppercase;
+  font-family:'Noto Sans TC',sans-serif;
+  font-weight:400;
+}
+.hero h2{
+  font-family:'Noto Serif TC',serif;
+  font-size:15.5px;font-weight:600;
+  color:var(--sumi);margin-top:.3rem;
+  letter-spacing:.04em;line-height:1.35;
+}
+.hero-note{
+  font-size:11.5px;color:var(--sumi2);
+  margin-top:.7rem;line-height:1.75;
+  font-weight:300;
+}
+.badge{
+  font-size:10px;padding:2px 9px;
+  border-radius:2px;border:1px solid;
+  white-space:nowrap;flex-shrink:0;
+  letter-spacing:.06em;font-weight:400;
+  margin-top:2px;
+}
+.badge.osaka{background:var(--aka-light);color:var(--aka);border-color:rgba(181,55,42,.25)}
+.badge.kyoto{background:var(--midori-light);color:var(--midori);border-color:rgba(45,107,74,.25)}
+.badge.kobe{background:var(--kon-light);color:var(--kon);border-color:rgba(42,74,122,.25)}
+.badge.rinku{background:var(--murasaki-light);color:var(--murasaki);border-color:rgba(90,58,122,.25)}
+.badge.tr{background:var(--sumi6);color:var(--sumi3);border-color:var(--sumi5)}
+
+/* ── 時間軸項目 ── */
+.item{
+  display:flex;
+  cursor:pointer;
+  border-radius:2px;
+  transition:background .15s;
+  margin-bottom:0;
+  border-bottom:1px solid var(--sumi5);
+}
+.item:last-child{border-bottom:none}
+.item:hover,.item.on{background:rgba(255,255,255,.7)}
+
+.il{
+  width:58px;flex-shrink:0;
+  padding:12px 0 12px 2px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.it{
+  font-size:9.5px;color:var(--sumi4);
+  font-weight:400;white-space:nowrap;
+  letter-spacing:.02em;
+  font-family:'Noto Sans TC',sans-serif;
+}
+.dc{
+  display:flex;flex-direction:column;
+  align-items:center;flex:1;margin-top:5px;
+}
+
+/* 點：細線圓圈 */
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  border:1.5px solid var(--sumi4);
+  background:var(--washi);
+  flex-shrink:0;
+  transition:border-color .2s;
+}
+.dot.s{border-color:var(--midori);background:var(--midori-light)}
+.dot.f{border-color:var(--aka);background:var(--aka-light)}
+.dot.m{border-color:var(--kon);background:var(--kon-light)}
+.dot.h{border-color:var(--murasaki);background:var(--murasaki-light)}
+.dot.sh{border-color:#a04060;background:#f8eaef}
+.dot.ap{border-color:var(--sumi4);background:var(--sumi6)}
+
+.ln{width:1px;flex:1;min-height:8px;background:var(--sumi5);margin-top:3px}
+
+.im{flex:1;padding:10px 10px 10px 6px}
+.im h3{
+  font-size:13px;font-weight:500;
+  color:var(--sumi);letter-spacing:.02em;
+  line-height:1.4;
+}
+.im p{
+  font-size:11px;color:var(--sumi3);
+  margin-top:2px;line-height:1.55;
+  font-weight:300;
+}
+.dur{
+  font-size:9.5px;color:var(--sumi4);
+  background:transparent;
+  padding:0;
+  display:inline-block;margin-top:4px;
+  letter-spacing:.02em;
+  border:none;
+}
+
+/* ── 展開詳情 ── */
+.detail{
+  display:none;
+  padding:2px 10px 12px 6px;
+  animation:fadeIn .2s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 .item.on .detail{display:block}
-.desc{font-size:12px;color:#555;line-height:1.7;margin-bottom:6px}
-.lb{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#aaa;margin-bottom:2px}
-.box{background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:6px 10px;font-size:11px;line-height:1.7;color:#666;margin-bottom:6px}
-.tip{border-left:2px solid #F5C87A;padding-left:8px;font-size:11px;color:#666;line-height:1.6;margin-top:3px}
-.lgd{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:#888;padding:8px 1rem 12px;border-top:1px solid #e5e5e5}
-.li{display:flex;align-items:center;gap:4px}
-.ld{width:8px;height:8px;border-radius:50%;border:1.5px solid}
+
+.desc{
+  font-size:11.5px;color:var(--sumi2);
+  line-height:1.8;margin-bottom:8px;
+  font-weight:300;
+  border-left:2px solid var(--sumi5);
+  padding-left:10px;
+}
+.lb{
+  font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;
+  color:var(--sumi4);
+  text-transform:uppercase;
+  margin-bottom:3px;
+  font-family:'Noto Sans TC',sans-serif;
+}
+.box{
+  background:var(--sumi7);
+  border:1px solid var(--sumi5);
+  border-radius:2px;
+  padding:7px 10px;
+  font-size:11px;line-height:1.8;
+  color:var(--sumi2);
+  margin-bottom:7px;
+}
+.box div::before{
+  content:'→ ';
+  color:var(--sumi4);
+  font-size:10px;
+}
+.tip{
+  border-left:2px solid var(--aka);
+  padding-left:9px;
+  font-size:11px;color:var(--sumi2);
+  line-height:1.7;
+  margin-top:4px;
+  background:var(--aka-light);
+  padding:5px 9px;
+  border-radius:0 2px 2px 0;
+}
+
+/* ── 圖例 ── */
+.lgd{
+  display:flex;flex-wrap:wrap;gap:5px 14px;
+  font-size:10.5px;color:var(--sumi3);
+  padding:10px 1.5rem 1.5rem;
+  border-top:1px solid var(--sumi5);
+  font-weight:300;
+}
+.li{display:flex;align-items:center;gap:5px}
+.ld{width:7px;height:7px;border-radius:50%;border:1.5px solid;flex-shrink:0}
+
+/* ── 收折箭頭 ── */
+.arrow{
+  float:right;
+  font-size:9px;color:var(--sumi4);
+  transition:transform .2s;
+  margin-top:2px;
+  user-select:none;
+}
+.item.on .arrow{transform:rotate(180deg)}
 </style>
 </head>
 <body>
 <div class="wrap">
+
 <div class="hdr">
-  <h1>大阪・神戶・京都 最終版 8 天行程</h1>
-  <p>點擊任意景點展開詳情・交通・小提示</p>
+  <div class="hdr-en">Osaka · Kobe · Kyoto — 8 Days</div>
+  <h1>大阪・神戶・京都<br>八日旅程</h1>
+  <div class="hdr-sub">點擊任意項目展開交通・詳情・小提示</div>
   <div class="hotels">
-    <span class="hc hc1">🏨 Day 1–6：Ocean Tsutenkaku</span>
-    <span class="hc hc2">🏨 Day 7：臨空城附近飯店</span>
+    <span class="hc hc1">宿 Day 1–6　Ocean Tsutenkaku 通天閣</span>
+    <span class="hc hc2">宿 Day 7　大阪機場奧德西斯套房</span>
   </div>
 </div>
+
 <div class="tabs" id="tabs"></div>
 <div id="panes"></div>
+
 <div class="lgd">
-  <div class="li"><div class="ld" style="border-color:#2E8B57;background:#EEF7F1"></div>景點</div>
-  <div class="li"><div class="ld" style="border-color:#E07B3A;background:#FEF0E4"></div>餐飲</div>
-  <div class="li"><div class="ld" style="border-color:#5A82C5;background:#EBF1FA"></div>交通</div>
-  <div class="li"><div class="ld" style="border-color:#D4537E;background:#FBEAF0"></div>購物</div>
-  <div class="li"><div class="ld" style="border-color:#9B59B6;background:#F4EEF9"></div>住宿</div>
+  <div class="li"><div class="ld" style="border-color:var(--midori);background:var(--midori-light)"></div>景點</div>
+  <div class="li"><div class="ld" style="border-color:var(--aka);background:var(--aka-light)"></div>餐飲</div>
+  <div class="li"><div class="ld" style="border-color:var(--kon);background:var(--kon-light)"></div>交通</div>
+  <div class="li"><div class="ld" style="border-color:#a04060;background:#f8eaef"></div>購物</div>
+  <div class="li"><div class="ld" style="border-color:var(--murasaki);background:var(--murasaki-light)"></div>住宿</div>
 </div>
 </div>
+
 <script>
 const D=[
-{n:1,l:"第1天",c:"tr",cl:"入境",t:"抵達大阪 ✈",note:"晚間抵達關西機場，完成入境後直奔 Ocean Tsutenkaku，在新世界吃串炸宵夜迎接第一晚。",
+{n:1,l:"第一天",c:"tr",cl:"入境",t:"抵達大阪",note:"晚間抵達關西機場，完成入境後取 ICOCA，循空港急行前往飯店，在新世界吃串炸宵夜迎接第一晚。",
 items:[
-{t:"晚間",tp:"ap",n:"關西機場入境",b:"辦入境・換ICOCA・兌日圓",d:"抵達後先換好 ICOCA（建議儲值 ¥3,000 以上），兌換足夠現金。機場有 7-Eleven 可買零食補給。",tr:["南海電鐵 難波線：機場→難波 約 45 分，¥1,450","利木津巴士：機場→難波 約 50 分，¥1,600"],tip:"ICOCA 在大阪、京都、神戶的電車、公車、超商全程都能用。",dur:"1–1.5 小時"},
-{t:"晚間",tp:"m",n:"前往 Ocean Tsutenkaku",b:"通天閣旁，新世界商圈步行 2 分鐘",d:"Ocean Tsutenkaku 位於新世界商圈核心，步行即達通天閣、串炸老街。Check-in 後安頓行李。",tr:["地鐵御堂筋線「動物園前站」步行約 5 分鐘"],tip:"飯店提供自助 check-in，門禁密碼入房，不受時間限制。",dur:"—"},
+{t:"晚間",tp:"ap",n:"關西機場入境",b:"辦入境・換 ICOCA・兌日圓",d:"抵達後先換好 ICOCA（建議儲值 ¥3,000 以上），兌換足夠現金。機場有 7-Eleven 可買零食補給。",tr:["空港急行→天下茶屋→堺筋線惠美須町站（3 號出口步行 5 分）"],tip:"ICOCA 在大阪、京都、神戶的電車、公車、超商全程都能用。",dur:"1–1.5 小時"},
+{t:"21:30",tp:"h",n:"入住 Ocean Tsutenkaku 通天閣",b:"〒556-0002 大阪府大阪市浪速区恵美須東 1-10-12",d:"Ocean Tsutenkaku 位於新世界商圈核心，步行即達通天閣、串炸老街。Check-in 後安頓行李。",tr:["堺筋線「惠美須町站」3 號出口步行約 5 分鐘"],tip:"飯店提供自助 check-in，門禁密碼入房，不受時間限制。",dur:"—"},
 {t:"入夜",tp:"f",n:"新世界串炸宵夜",b:"飯店旁步行 2 分鐘，第一夜輕鬆吃",d:"走出飯店就是串炸（串カツ）發源地，八重勝、だるま等老舖林立。各種食材下鍋炸配生啤酒非常過癮。",tr:[],tip:"規矩：沾醬只能沾一次，禁止回沾！通天閣入夜亮燈，出門就能看到。",dur:"1–1.5 小時"},
 ]},
-{n:2,l:"第2天",c:"osaka",cl:"大阪",t:"大阪城 & 南區精華",note:"大阪第一個完整觀光日，從大阪城走到心齋橋再到道頓堀，北南串連大阪最精華的兩個面貌。",
+{n:2,l:"第二天",c:"osaka",cl:"大阪",t:"大阪城 & 南區精華",note:"大阪第一個完整觀光日，上午梅田逛街，午後南下串連難波・心齋橋・道頓堀・大阪城・四天王寺，感受大阪最精華的兩個面貌。",
 items:[
-{t:"09:00",tp:"s",n:"大阪城 & 大阪城公園",b:"豐臣秀吉的象徵，戰國必訪地標",d:"大阪城建於1583年，城內博物館展示豐臣秀吉時代史料，頂層展望台可俯瞰大阪市景。城外公園四季皆美。",tr:["JR 大阪環狀線「大阪城公園站」步行 5 分","地鐵谷町線「天満橋站」步行 15 分","從 Ocean Tsutenkaku 搭地鐵約 15 分"],tip:"公園免費，城內博物館 ¥600。9 點開門即入場避開人潮。",dur:"1.5–2 小時"},
-{t:"11:30",tp:"f",n:"黑門市場午餐",b:"大阪廚房，海鮮丼・和牛燒烤現吃",d:"黑門市場超過 180 間店舖，是大阪最知名的生鮮市場。邊走邊吃：現切海鮮、和牛燒烤、炸蝦、生蠔。",tr:["地鐵堺筋線「日本橋站」步行 3 分鐘"],tip:"現金為主。刺身海鮮丼 ¥1,500–2,500，現烤扇貝 ¥500 起。",dur:"1 小時"},
-{t:"13:30",tp:"s",n:"心齋橋筋 & 美國村",b:"大阪最繁華購物拱廊，潮流文化中心",d:"心齋橋筋 600 公尺室內拱廊集合藥妝、服飾、甜點名店。美國村有大量古著店和獨立品牌。",tr:["地鐵御堂筋線「心齋橋站」出站即達"],tip:"藥妝必逛：松本清、唐吉訶德。護照退稅同一店消費滿 ¥5,500 以上可申請。",dur:"1.5–2 小時"},
-{t:"15:30",tp:"s",n:"道頓堀 & 法善寺橫丁",b:"運河霓虹夜景・格力高看板",d:"道頓堀下午到夜間最熱鬧，格力高跑步人看板是必拍地標。法善寺橫丁石板窄巷，苔蘚覆蓋的水掛不動尊氣氛獨特。",tr:["心齋橋步行 5 分鐘"],tip:"道頓堀觀光船 ¥1,500，從水面仰望招牌最震撼，傍晚出發最佳。",dur:"1.5 小時"},
-{t:"18:30",tp:"f",n:"道頓堀晚餐",b:"大阪燒・章魚燒・拉麵任選",d:"道頓堀餐廳選擇極多，推薦：ぼてじゅう大阪燒、たこ家くくる章魚燒，或金龍拉麵解饞。",tr:[],tip:"",dur:"1 小時"},
-{t:"深夜",tp:"h",n:"返回 Ocean Tsutenkaku",b:"",d:"",tr:[],tip:"",dur:"—"},
+{t:"08:30",tp:"f",n:"早餐",b:"鬆餅（飯店附近）或客美多",d:"",tr:[],tip:"",dur:"—"},
+{t:"09:30",tp:"sh",n:"梅田逛街",b:"百貨・藥妝・選物",d:"梅田是大阪最大的購物商圈，阪急・阪神・大丸・Loft 等百貨密集。美食：利久牛舌、北新地白光鰻魚飯、MORITAYA 壽喜燒、藍瓶咖啡。",tr:["從飯店搭堺筋線至南森町轉阪急，或直搭至梅田"],tip:"退稅：同一店家消費滿 ¥5,500 可申請，護照必備。",dur:"2 小時"},
+{t:"12:00",tp:"f",n:"午餐",b:"蟹吉（道頓堀，僅午間）或心齋橋三明治",d:"",tr:[],tip:"蟹吉僅開午餐，務必把握。",dur:"1 小時"},
+{t:"13:30",tp:"s",n:"難波八阪神社",b:"12 公尺巨大獅頭拜殿，大阪最獨特神社",d:"難波八阪神社以高達 12 公尺的巨大獅頭型拜殿聞名，象徵吞噬惡運帶來好運，造型震撼，是大阪最有個性的神社。",tr:["Ocean Tsutenkaku 步行約 15 分","地鐵「難波站」步行 5 分"],tip:"免費參拜，人潮比京都神社少很多，可以從各角度悠閒拍照。",dur:"30–45 分"},
+{t:"14:30",tp:"s",n:"心齋橋筋 & 道頓堀",b:"格力高跑步人看板・藥妝採買",d:"心齋橋筋 600 公尺室內拱廊集合藥妝、服飾、甜點名店。道頓堀格力高跑步人看板是必拍地標。",tr:["地鐵御堂筋線「心齋橋站」出站即達"],tip:"藥妝必逛：松本清、唐吉訶德。",dur:"1.5–2 小時"},
+{t:"16:30",tp:"s",n:"大阪城 & 大阪城公園",b:"豐臣秀吉象徵，戰國必訪地標",d:"大阪城建於 1583 年，城內博物館展示豐臣秀吉時代史料，頂層展望台可俯瞰大阪市景。城外公園四季皆美。",tr:["地鐵谷町線「天満橋站」步行 15 分"],tip:"公園免費，城內博物館 ¥600。",dur:"1.5 小時"},
+{t:"18:30",tp:"s",n:"四天王寺",b:"日本最古老佛寺，西元 593 年",d:"四天王寺建於 593 年，是日本現存最古老寺院之一。五重塔莊嚴壯觀，境內寬廣綠意豐富。",tr:["大阪城公園步行或地鐵「四天王寺前夕陽丘站」"],tip:"境內免費，中心伽藍 ¥500。",dur:"1 小時"},
+{t:"20:00",tp:"f",n:"晚餐",b:"和牛吃到飽・壽喜燒・串燒・居酒屋",d:"候選：和和鍋壽喜燒吃到飽、板前燒肉、鴨肉串燒。",tr:[],tip:"甜點：Harbs 千層蛋糕、melt chocolate 巧克力奶昔（心齋橋）。",dur:"1.5 小時"},
 ]},
-{n:3,l:"第3天",c:"kobe",cl:"神戶",t:"神戶一日來回",note:"從 Ocean Tsutenkaku 出發當天來回神戶，北野異人館→神戶牛→南京町→Harborland，晚上返回大阪飯店。",
+{n:3,l:"第三天",c:"kobe",cl:"神戶",t:"神戶一日來回",note:"從 Ocean Tsutenkaku 出發當天來回神戶，北野→神戶牛→南京町→美利堅公園→Harborland，晚上返回大阪飯店。須磨海岸列為附加方案。",
 items:[
-{t:"09:00",tp:"m",n:"Ocean Tsutenkaku → 神戶三宮",b:"地鐵 + JR 新快速，約 40 分鐘",d:"從飯店搭地鐵至梅田，轉 JR 新快速直達神戶三宮，約 40–50 分鐘。輕裝出發，晚上返回大阪。",tr:["地鐵「動物園前→梅田」約 10 分","JR 新快速「大阪→三宮」約 20 分，¥430"],tip:"行李不用帶，輕裝出發最舒服。",dur:"40–50 分鐘"},
-{t:"10:00",tp:"s",n:"北野異人館街",b:"明治西洋洋館，歐風山坡散步",d:"保留超過 30 棟明治時代西洋風格洋館（英國館、法國館、德國館等），坡道石板路加上異國建築，和日本其他城市景色截然不同。",tr:["三宮站步行上坡約 20 分","或市巴士 2 號「北野站」下車"],tip:"聯票約 ¥1,500 可入 3 棟洋館。附近 Starbucks 異人館店建築很美，值得進去坐坐。",dur:"1.5 小時"},
-{t:"12:00",tp:"f",n:"神戶牛午餐",b:"入口即化的頂級和牛，來神戶必吃！",d:"神戶牛是世界最頂級的和牛之一，午餐套餐比晚餐划算很多。鐵板燒形式主廚在眼前現做非常有儀式感。",tr:["三宮站步行範圍"],tip:"推薦：モーリヤ本店、なか川。午餐套餐約 ¥3,000–5,500，非常超值。",dur:"1.5 小時"},
-{t:"14:00",tp:"s",n:"南京町（中華街）",b:"關西最大中華街，點心掃街",d:"神戶南京町關西規模最大，約 100 家店舖。推薦邊走邊吃：老祥記豚包（必排隊）、ごまだんご、各式現烤點心。",tr:["三宮步行約 10 分","地鐵海岸線「みなと元町站」步行 3 分"],tip:"老祥記豚包必排隊，早去比較快。現烤點心建議每樣都試一個。",dur:"1 小時"},
-{t:"15:30",tp:"s",n:"神戶港灣地帶 Harborland",b:"海濱夕陽・摩天輪・夜景",d:"Harborland 臨港休閒區，Mosaic 商場廣場可眺望神戶港和六甲山。傍晚夕陽配摩天輪是神戶最浪漫的景色。",tr:["地鐵海岸線「ハーバーランド站」出站即達"],tip:"港灣遊覽船 ¥1,500/60 分鐘，傍晚出發最推薦。",dur:"1.5–2 小時"},
-{t:"18:30",tp:"m",n:"神戶 → 返回 Ocean Tsutenkaku",b:"阪神電鐵 + 地鐵，約 50 分鐘",d:"傍晚返回大阪，可在三宮車站買神戶限定伴手禮再出發。",tr:["阪神電鐵「三宮→難波」約 40 分，¥430","難波換地鐵步行回飯店"],tip:"神戶限定伴手禮：Juchheim 巴姆蛋糕、KONIGS KRONE 餅乾，三宮車站就能買到。",dur:"50 分鐘"},
-{t:"深夜",tp:"h",n:"返回 Ocean Tsutenkaku",b:"",d:"",tr:[],tip:"",dur:"—"},
+{t:"09:00",tp:"m",n:"出發前往神戶三宮",b:"阪神難波線，約 45–50 分直達",d:"從飯店步行至日本橋站，搭堺筋線至日本橋轉阪神難波線快速急行，直達神戶三宮，全程約 45–50 分鐘。",tr:["堺筋線「惠美須町→日本橋」2 站","阪神難波線「日本橋→神戶三宮」快速急行約 45 分"],tip:"輕裝出發最舒服，行李留在飯店。",dur:"50 分鐘"},
+{t:"10:00",tp:"s",n:"北野異人館街 & 北野天滿神社",b:"明治洋館・歐風山坡散步",d:"保留超過 30 棟明治時代西洋風格洋館，坡道石板路加上異國建築，和日本其他城市截然不同。北野天滿神社在山坡高處，可俯瞰神戶市景。",tr:["三宮站步行上坡約 20 分","或 City Loop 巴士「北野異人館站」下車"],tip:"聯票約 ¥1,500 可入 3 棟洋館。附近 Starbucks 異人館店建築很美，值得進去坐坐。",dur:"1.5 小時"},
+{t:"12:00",tp:"f",n:"神戶牛午餐",b:"入口即化的頂級和牛，來神戶必吃",d:"神戶牛是世界最頂級和牛之一，午餐套餐比晚餐划算很多。鐵板燒形式主廚在眼前現做非常有儀式感。",tr:["三宮站步行範圍"],tip:"推薦：モーリヤ本店、WASSIA 神戶牛燒肉、神戶 A-1。午餐套餐約 ¥3,000–5,500。",dur:"1.5 小時"},
+{t:"14:00",tp:"s",n:"南京町（中華街）",b:"關西最大中華街，點心掃街",d:"神戶南京町關西規模最大，約 100 家店舖。推薦邊走邊吃：老祥記豚包（必排隊）、各式現烤點心。",tr:["三宮步行約 10 分"],tip:"老祥記豚包必排隊，早去比較快。",dur:"1 小時"},
+{t:"15:30",tp:"s",n:"美利堅公園 & Harborland 港灣",b:"海濱夕陽・摩天輪・神戶夜景",d:"Harborland 臨港休閒區，Mosaic 商場廣場可眺望神戶港和六甲山。傍晚夕陽配摩天輪是神戶最浪漫的景色。",tr:["地鐵海岸線「ハーバーランド站」出站即達"],tip:"港灣遊覽船 ¥1,500/60 分，傍晚出發最推薦。",dur:"1.5–2 小時"},
+{t:"17:30",tp:"s",n:"生田神社",b:"緑意盎然，三宮中心",d:"生田神社是神戶最古老的神社，位於三宮熱鬧市區中，周圍是咖啡館和特色小店。",tr:["三宮步行約 5 分"],tip:"",dur:"30 分鐘"},
+{t:"18:30",tp:"m",n:"返回大阪",b:"阪神電鐵，三宮→難波 約 40 分",d:"傍晚返回大阪，可在三宮車站買神戶限定伴手禮再出發。",tr:["阪神電鐵「三宮→難波」約 40 分，¥430","難波步行或換地鐵回飯店"],tip:"神戶伴手禮：亀井堂本家布丁・神戶風月堂法蘭酥・Flower Bakery 生吐司。",dur:"50 分鐘"},
+{t:"—",tp:"ap",n:"附加方案：須磨海岸",b:"若時間充裕，可排在生田神社之後",d:"JR 神戶線三宮→須磨站約 12–15 分，車資 ¥190。南口出站步行 1 分鐘即抵沙灘，5 月氣候舒適適合散步。",tr:["JR 神戶線「三之宮→須磨」約 12–15 分，¥190"],tip:"附加方案，依體力與時間彈性安排。",dur:"1 小時"},
 ]},
-{n:4,l:"第4天",c:"kyoto",cl:"京都",t:"京都東山：南→北單向散步線",note:"5/12（一）當日來回京都，動線南→北一路順走完全不折返：伏見稻荷→清水寺→二年坂→八坂神社→花見小路→鴨川→河原町晚餐，19:00 前搭阪急返回大阪。",
+{n:4,l:"第四天",c:"kyoto",cl:"京都",t:"京都東山：南→北單向散步線",note:"5/12（一）當日來回京都，動線南→北一路順走完全不折返：伏見稻荷→清水寺→二年坂→八坂神社→花見小路→白川南通→鴨川→河原町晚餐。",
 items:[
-{t:"07:00",tp:"m",n:"Ocean Tsutenkaku 出發",b:"惠美須町搭堺筋線，轉乘往京都",d:"惠美須町站搭堺筋線 → 新今宮站轉 JR 大阪環狀線 → 大阪站轉 JR 京都線新快速 → 京都站（約 29 分）→ 轉 JR 奈良線 → 稻荷站（5 分）。",tr:["堺筋線「惠美須町→新今宮」換 JR 大阪環狀線","JR 京都線新快速「大阪→京都」約 29 分，¥570","JR 奈良線「京都→稻荷」約 5 分"],tip:"總時間約 1.5 小時（含轉車），預計 08:30 抵達稻荷站。早出發可趁人潮湧入前進鳥居隧道。",dur:"1.5 小時"},
-{t:"08:30",tp:"s",n:"伏見稻荷大社 🦊",b:"千本鳥居，早到避人潮，走到奧社即可回頭",d:"全日本 3 萬座稻荷神社總本社，朱紅鳥居連綿舉世聞名。建議走到「奧社」即可回頭，來回約 2 小時，不必爬到山頂。24 小時免費開放。",tr:["JR 奈良線「稻荷站」出站步行 1 分鐘"],tip:"奧社有小茶屋可補充飲料點心，適合歇腳再下山。8:30 前人潮最少，千本鳥居幾乎可以獨享。",dur:"2 小時"},
-{t:"10:30",tp:"m",n:"伏見稻荷 → 清水五條",b:"京阪電車，約 20 分鐘，¥220",d:"從伏見稻荷站搭京阪電車往清水五條方向，全程約 20 分鐘。出站後沿茶碗坂步行上山，沿途有不少小店可以慢逛。",tr:["京阪本線「伏見稻荷→清水五條」約 20 分，¥220","清水五條站步行上山約 30 分至清水寺"],tip:"茶碗坂是清水寺下坡路段，陶器小店特別多，可邊走邊看。",dur:"50 分鐘"},
-{t:"11:30",tp:"s",n:"清水寺 ⛩️",b:"本堂 + 音羽瀑布 + 地主神社",d:"清水寺「清水舞台」懸空於山腰，是世界遺產。必看：本堂舞台俯瞰京都市景、音羽瀑布（三道水柱各代表健康、戀愛、學業）、緊鄰的地主神社（戀愛神社）。",tr:["清水五條站步行上坡約 30 分"],tip:"門票 ¥400。下山不走原路，直接沿坡道往二年坂方向，更順路且更好逛。",dur:"1.5 小時"},
-{t:"13:00",tp:"f",n:"二年坂 / 三年坂 午餐",b:"豆腐料理・抹茶甜點・石板坡道漫步",d:"午餐推薦：阿古屋茶屋（茶泡飯吃到飽 ¥1,680，CP 值高）、豆腐料理 奧丹（清水寺旁老店，湯豆腐套餐）、% Arabica 京都八坂店（咖啡拍照）。甜點推薦よーじや 祇園店（抹茶聖代）、茶寮都路里（必排隊）。",tr:[],tip:"這一帶氛圍佳但偏貴。茶泡飯吃到飽性價比最高，建議提前稍微空腹。",dur:"1.5 小時"},
-{t:"14:30",tp:"s",n:"八坂神社 ⛩️",b:"求姻緣・朱紅樓門・40 分鐘",d:"八坂神社朱紅色西樓門是京都最上相地標，24 小時免費參拜。是祇園地區的守護神社，每年七月的祇園祭就從這裡出發。",tr:["從三年坂步行下坡約 10 分"],tip:"八坂神社免費，圓山公園緊鄰旁邊，有長椅和草坪可休息片刻再繼續走。",dur:"40 分鐘"},
-{t:"15:30",tp:"s",n:"花見小路 📸",b:"私人巷弄禁拍，走大路即可",d:"花見小路保留完整木造町家建築，是京都花街文化象徵。注意：私人小巷禁止拍照，走花見小路大路即可，傍晚 16:00–17:00 有機會看到外出赴宴的藝伎或舞妓。",tr:["八坂神社步行 5 分鐘"],tip:"禁止在町家門口大聲喧嘩或阻擋藝伎去路。建議順道試試祇園辻利的抹茶冰淇淋。",dur:"30 分鐘"},
-{t:"16:00",tp:"s",n:"祇園 → 白川南通",b:"小橋流水，超多人拍婚紗",d:"白川南通是祇園最美的小徑，柳樹垂掛石板橋旁、流水潺潺，是京都婚紗照的人氣拍攝地點，傍晚光線最迷人。",tr:["花見小路步行 5 分鐘"],tip:"這條路很窄，人多時耐心等人潮散去再拍，傍晚光線最好。",dur:"30 分鐘"},
-{t:"16:30",tp:"s",n:"鴨川四條大橋",b:"坐河邊看夕陽，買飲料休息",d:"從白川步行約 10 分鐘到四條大橋，坐在鴨川河岸石階上看夕陽，去旁邊超商買飲料放鬆。",tr:[],tip:"鴨川石階大家會等間距坐著，是著名的「鴨川納涼」文化。",dur:"30 分鐘"},
-{t:"17:30",tp:"f",n:"晚餐：河原町 / 先斗町",b:"京都烏龍麵・京料理・親子丼",d:"推薦：権太呂本店（京都烏龍麵名店，¥1,500 起）、先斗町 魯ビン（町家改裝，京料理套餐）、ひさご（親子丼名店 ¥1,100）。",tr:[],tip:"先斗町是條狹長小巷，兩側都是餐廳，氣氛很好。不排隊直接走進去看菜單再決定。",dur:"1.5 小時"},
-{t:"19:00",tp:"m",n:"京都河原町 → 返回飯店",b:"阪急京都線→梅田→地鐵，約 1 小時",d:"從京都河原町站搭阪急京都線「特急」直達大阪梅田，再換地鐵返回 Ocean Tsutenkaku，約 20:30 回到飯店。",tr:["阪急京都線「河原町→梅田」約 45 分，¥430","地鐵「梅田→動物園前」約 10 分"],tip:"阪急比 JR 便宜，河原町站就在鴨川旁邊，非常方便。",dur:"1 小時"},
-{t:"20:30",tp:"h",n:"返回 Ocean Tsutenkaku",b:"",d:"",tr:[],tip:"",dur:"—"},
+{t:"07:00",tp:"m",n:"出發前往伏見稻荷",b:"惠美須町搭堺筋線，轉乘往京都",d:"惠美須町站搭堺筋線 → 新今宮換 JR 大阪環狀線 → 大阪站轉 JR 京都線新快速 → 京都站（約 29 分）→ 轉 JR 奈良線 → 稻荷站（5 分）。",tr:["堺筋線「惠美須町→新今宮」換 JR 大阪環狀線","JR 京都線新快速「大阪→京都」約 29 分，¥570","JR 奈良線「京都→稻荷」約 5 分"],tip:"總時間約 1.5 小時，預計 08:30 抵達稻荷站。早出發可趁人潮湧入前進鳥居隧道。",dur:"1.5 小時"},
+{t:"08:30",tp:"s",n:"伏見稻荷大社",b:"千本鳥居，早到避人潮",d:"全日本 3 萬座稻荷神社總本社，朱紅鳥居連綿舉世聞名。建議走到「奧社」即可回頭，來回約 2 小時，不必爬到山頂。24 小時免費開放。",tr:["JR 奈良線「稻荷站」出站步行 1 分"],tip:"8:30 前人潮最少，千本鳥居幾乎可以獨享。奧社有小茶屋可補充飲料點心。",dur:"2 小時"},
+{t:"10:30",tp:"m",n:"伏見稻荷 → 清水寺",b:"京阪電車，約 20 分，¥220",d:"從伏見稻荷站搭京阪電車往清水五條方向，出站後沿茶碗坂步行上山，沿途有不少小店可以慢逛。",tr:["京阪本線「伏見稻荷→清水五條」約 20 分，¥220","清水五條站步行上山約 30 分至清水寺"],tip:"茶碗坂是清水寺下坡路段，陶器小店特別多。",dur:"50 分鐘"},
+{t:"11:30",tp:"s",n:"清水寺 & 二年坂・三年坂",b:"本堂舞台・音羽瀑布・石板坡道",d:"清水寺「清水舞台」懸空於山腰，是世界遺產。必看：本堂舞台俯瞰京都市景、音羽瀑布（三道水柱各代表健康・戀愛・學業）。下山不走原路，直接沿二年坂往下逛。",tr:["清水五條站步行上坡約 30 分"],tip:"門票 ¥400。下山沿坡道往二年坂方向，更順路且更好逛。抹茶甜點必試。",dur:"1.5–2 小時"},
+{t:"13:30",tp:"f",n:"午餐：二年坂 / 三年坂周邊",b:"豆腐料理・京風烏龍麵・抹茶甜點",d:"推薦：阿古屋茶屋茶泡飯吃到飽（¥1,680，CP 值高）、豆腐料理奧丹（湯豆腐套餐）、% Arabica 京都八坂店（咖啡打卡）。",tr:[],tip:"甜點推薦：よーじや 祇園店（抹茶聖代）、茶寮都路里（需排隊）。",dur:"1.5 小時"},
+{t:"14:30",tp:"s",n:"八坂神社 & 圓山公園",b:"朱紅西樓門・求姻緣",d:"八坂神社朱紅色西樓門是京都最上相地標，24 小時免費參拜。圓山公園緊鄰旁邊，有長椅和草坪可休息。",tr:["從三年坂步行下坡約 10 分"],tip:"免費，旁邊圓山公園有長椅和草坪，可歇腳再繼續走。",dur:"40 分鐘"},
+{t:"15:30",tp:"s",n:"花見小路 & 祇園",b:"最京都感的石板街",d:"花見小路保留完整木造町家建築，是京都花街文化象徵。注意：私人小巷禁止拍照，走花見小路大路即可，傍晚 16:00–17:00 有機會看到外出赴宴的藝伎或舞妓。",tr:["八坂神社步行 5 分"],tip:"禁止在町家門口大聲喧嘩或阻擋藝伎去路。建議順道試試祇園辻利的抹茶冰淇淋。",dur:"30 分鐘"},
+{t:"16:00",tp:"s",n:"白川南通",b:"小橋流水，柳樹婚紗拍攝地",d:"白川南通是祇園最美的小徑，柳樹垂掛石板橋旁、流水潺潺，傍晚光線最迷人。",tr:["花見小路步行 5 分"],tip:"這條路很窄，人多時耐心等人潮散去再拍，傍晚光線最好。",dur:"30 分鐘"},
+{t:"16:30",tp:"s",n:"鴨川四條大橋",b:"坐河邊看夕陽，著名的鴨川納涼",d:"從白川步行約 10 分鐘到四條大橋，坐在鴨川河岸石階上看夕陽，去旁邊超商買飲料放鬆。",tr:[],tip:"鴨川石階大家會等間距坐著，是著名的「鴨川納涼」文化。",dur:"30 分鐘"},
+{t:"17:30",tp:"f",n:"晚餐：河原町 / 先斗町",b:"京都烏龍麵・京料理・親子丼",d:"推薦：権太呂本店（京都烏龍麵名店 ¥1,500 起）、先斗町 魯ビン（町家改裝，京料理套餐）、ひさご（親子丼名店 ¥1,100）。",tr:[],tip:"先斗町是條狹長小巷，兩側都是餐廳，氣氛很好。不排隊直接走進去看菜單再決定。",dur:"1.5 小時"},
+{t:"19:00",tp:"m",n:"河原町 → 返回大阪",b:"阪急京都線→梅田→地鐵，約 1 小時",d:"從京都河原町站搭阪急京都線「特急」直達大阪梅田，再換地鐵返回 Ocean Tsutenkaku，約 20:30 回到飯店。",tr:["阪急京都線「河原町→梅田」約 45 分，¥430","地鐵「梅田→動物園前」約 10 分"],tip:"阪急比 JR 便宜，河原町站就在鴨川旁邊，非常方便。",dur:"1 小時"},
 ]},
-{n:5,l:"第5天",c:"kyoto",cl:"京都",t:"嵐山 + 金閣寺",note:"5/13（二）當日來回京都，西→北半環線避免折返：嵐山渡月橋→天龍寺→竹林→嵐山午餐→嵐電→金閣寺→京都車站伴手禮 + 晚餐，18:00 搭新快速返大阪。",
+{n:5,l:"第五天",c:"kyoto",cl:"京都",t:"嵐山 + 金閣寺",note:"5/13（二）當日來回京都，西→北半環線避免折返：嵐山渡月橋→天龍寺→竹林→野宮神社→嵐山午餐→嵐電→金閣寺→京都車站伴手禮，18:00 搭新快速返大阪。",
 items:[
-{t:"08:00",tp:"m",n:"Ocean Tsutenkaku 出發",b:"堺筋線→阪急，約 1.5 小時",d:"惠美須町站搭堺筋線至天神橋筋六丁目，轉阪急京都線「特急」至桂站，再轉阪急嵐山線至嵐山站，預計 09:30 抵達。",tr:["堺筋線「惠美須町→天神橋筋六丁目」約 10 分","阪急京都線特急「天神橋筋六丁目→桂」約 40 分","阪急嵐山線「桂→嵐山」約 15 分，¥480 全程"],tip:"總時間約 1.5 小時。另一選擇：難波→阪急難波線→京都河原町→轉嵐電，班次多但較慢。",dur:"1.5 小時"},
-{t:"09:30",tp:"s",n:"抵達嵐山站",b:"",d:"",tr:[],tip:"",dur:"—"},
-{t:"09:45",tp:"s",n:"渡月橋 🌉",b:"先拍照，順路走過去",d:"渡月橋橫跨桂川，是嵐山最具代表性的地標。早晨人少光線好，先在橋頭拍照留念，順路走至天龍寺方向。",tr:[],tip:"早上比下午人少很多，橋頭拍照不需要等太久。",dur:"30 分鐘"},
-{t:"10:15",tp:"s",n:"天龍寺（世界遺產）",b:"曹源池庭園必看，¥500",d:"天龍寺（世界遺產）曹源池庭園以嵐山為借景，是日本最早獲選世界遺產的庭園。早上光線從東面照入，倒影最清晰，是拍照最佳時機。",tr:["渡月橋步行約 10 分至天龍寺"],tip:"庭園入場 ¥500。從天龍寺北門出來可直接接竹林小徑，動線最順。",dur:"1 小時"},
-{t:"11:15",tp:"s",n:"竹林小徑 + 野宮神社 🎋",b:"天龍寺北門出來直接接",d:"竹林小徑是嵐山最具代表性的視覺地標，高聳翠竹形成幽靜隧道。竹林旁的野宮神社黑色鳥居全日本罕見，是《源氏物語》舞台，求良緣、求學業很靈驗。",tr:["天龍寺北門出來步行 1 分鐘即到竹林入口"],tip:"竹林早上比下午人少，光線從竹葉間篩落最美。野宮神社免費，境內龜石摸了可以實現願望。",dur:"45 分鐘"},
-{t:"12:00",tp:"f",n:"嵐山大街午餐",b:"鰻魚飯・景觀蕎麥麵・% Arabica",d:"午餐推薦：廣川鰻魚飯（米其林必比登，要排隊 ¥4,000 起）、嵐山よしむら蕎麥麵（景觀好，看得到桂川）、% Arabica 京都嵐山店（咖啡輕食，打卡）。",tr:[],tip:"廣川要排隊，建議 11:45 就去排。若不想等，よしむら景觀好且不用等太久。",dur:"1.5 小時"},
-{t:"13:30",tp:"m",n:"搭嵐電 → 北野白梅町 → 金閣寺",b:"嵐電 25 分 + 巴士 10 分，¥500",d:"從嵐電嵐山站搭嵐山本線至北野白梅町（¥250），轉市巴士 204/205 至金閣寺道（2 站約 10 分）。",tr:["嵐電嵐山本線「嵐山→北野白梅町」約 25 分，¥250","市巴士 204/205「北野白梅町→金閣寺道」約 10 分，¥230"],tip:"嵐電是有情調的古典小電車，一定要體驗。",dur:"35 分鐘"},
-{t:"14:15",tp:"s",n:"金閣寺 🏯",b:"下午陽光反射最美，¥500",d:"金閣寺（鹿苑寺）金閣樓倒映在鏡湖池上，是日本最具代表性的景象之一。下午陽光從西面照射，金箔反光最耀眼。",tr:["金閣寺道步行 5 分至入口"],tip:"門票 ¥500。欣賞正面倒影後繞一圈花園即可，不必停太久。",dur:"1 小時"},
-{t:"15:30",tp:"m",n:"搭 205 巴士 → 京都車站",b:"避開 16–18 點尖峰，約 40 分",d:"從金閣寺道搭市巴士 205 直達京都站，約 40 分鐘。提早出發避開下午 4-6 點的尖峰塞車。",tr:["市巴士 205「金閣寺道→京都駅前」約 40 分，¥230"],tip:"若等車超過 10 分鐘，可搭計程車或先至烏丸站轉地鐵，更快抵達京都站。",dur:"40 分鐘"},
-{t:"16:15",tp:"sh",n:"京都車站 伊勢丹 / 拉麵小路",b:"買伴手禮 + 晚餐，1.5 小時",d:"伴手禮必買（B1–2F）：阿闍梨餅（京都第一伴手禮）、生八橋（本家西尾八ッ橋）、辻利抹茶、中村藤吉茶葉。晚餐：拉麵小路（推薦ますたに背脂醬油拉麵）或伊勢丹 11F 和牛壽司。",tr:[],tip:"阿闍梨餅保存期限短（5–7 天），最後一天帶回台灣最新鮮。",dur:"1.5 小時"},
-{t:"18:00",tp:"m",n:"京都站搭新快速 → 大阪",b:"JR 新快速，約 30 分，¥570",d:"從 JR 京都站搭新快速返回大阪站，再換地鐵回 Ocean Tsutenkaku，約 19:30 回到飯店。",tr:["JR 京都線新快速「京都→大阪」約 30 分，¥570","地鐵「梅田→動物園前」約 10 分"],tip:"",dur:"30 分鐘"},
-{t:"19:30",tp:"h",n:"返回 Ocean Tsutenkaku",b:"",d:"",tr:[],tip:"",dur:"—"},
+{t:"08:00",tp:"m",n:"出發前往嵐山",b:"堺筋線→阪急，約 1.5 小時",d:"惠美須町站搭堺筋線至天神橋筋六丁目，轉阪急京都線「特急」至桂站，再轉阪急嵐山線至嵐山站，預計 09:30 抵達。",tr:["堺筋線「惠美須町→天神橋筋六丁目」約 10 分","阪急京都線特急「天神橋筋六丁目→桂」約 40 分","阪急嵐山線「桂→嵐山」約 15 分，¥480 全程"],tip:"總時間約 1.5 小時。建議 8 點前到，人少光線最美。",dur:"1.5 小時"},
+{t:"09:30",tp:"s",n:"渡月橋",b:"嵐山最具代表性地標，先拍照",d:"渡月橋橫跨桂川，是嵐山最具代表性的地標。早晨人少光線好，先在橋頭拍照留念，順路走至天龍寺方向。",tr:[],tip:"早上比下午人少很多，橋頭拍照不需要等太久。",dur:"30 分鐘"},
+{t:"10:15",tp:"s",n:"天龍寺（世界遺產）",b:"曹源池庭園，以嵐山為借景，¥500",d:"天龍寺曹源池庭園以嵐山為借景，是日本最早獲選世界遺產的庭園。早上光線從東面照入，倒影最清晰。",tr:["渡月橋步行約 10 分至天龍寺"],tip:"庭園入場 ¥500。從天龍寺北門出來可直接接竹林小徑，動線最順。",dur:"1 小時"},
+{t:"11:15",tp:"s",n:"竹林小徑 & 野宮神社",b:"天龍寺北門出來直接接",d:"竹林小徑高聳翠竹形成幽靜隧道。旁邊的野宮神社黑色鳥居全日本罕見，是《源氏物語》舞台，求良緣、求學業很靈驗。",tr:["天龍寺北門出來步行 1 分至竹林入口"],tip:"竹林早上比下午人少，光線從竹葉間篩落最美。野宮神社免費，境內龜石摸了可以實現願望。",dur:"45 分鐘"},
+{t:"12:00",tp:"f",n:"嵐山午餐",b:"鰻魚飯・景觀蕎麥麵・% Arabica",d:"推薦：龜山家蕎麥麵（🈺11:30–14:30，週三休）、obu cafe（野宮神社步行 8 分）、中村屋、Onigiri Ranma 飯糰（JR 嵯峨嵐山站步行 4 分）。",tr:[],tip:"廣川鰻魚飯要排隊，建議 11:45 就去排。若不想等，嵐山よしむら景觀好且不用等太久。",dur:"1.5 小時"},
+{t:"13:30",tp:"s",n:"嵐山商店街 & 足湯",b:"嵐電月台旁足湯，毛巾 ¥200",d:"嵐電月台旁足湯非常舒服，泡完腳繼續逛。沿商店街採買抹茶甜點、竹製工藝品。",tr:[],tip:"足湯毛巾 ¥200。月台本身也有懷舊氣氛，值得拍照。",dur:"1 小時"},
+{t:"14:30",tp:"m",n:"嵐電 → 金閣寺",b:"嵐電 25 分 + 巴士 10 分，¥500",d:"從嵐電嵐山站搭嵐山本線至北野白梅町（¥250），轉市巴士 204/205 至金閣寺道（2 站約 10 分）。",tr:["嵐電嵐山本線「嵐山→北野白梅町」約 25 分，¥250","市巴士 204/205「北野白梅町→金閣寺道」約 10 分，¥230"],tip:"嵐電是有情調的古典小電車，一定要體驗。",dur:"35 分鐘"},
+{t:"15:15",tp:"s",n:"金閣寺",b:"下午陽光反射最美，¥500",d:"金閣寺（鹿苑寺）金閣樓倒映在鏡湖池上，是日本最具代表性的景象之一。下午陽光從西面照射，金箔反光最耀眼。",tr:["金閣寺道步行 5 分至入口"],tip:"門票 ¥500。欣賞正面倒影後繞一圈花園即可，不必停太久。",dur:"1 小時"},
+{t:"16:30",tp:"m",n:"205 巴士 → 京都車站",b:"約 40 分",d:"從金閣寺道搭市巴士 205 直達京都站，約 40 分鐘。",tr:["市巴士 205「金閣寺道→京都駅前」約 40 分，¥230"],tip:"若等車超過 10 分鐘，可先至烏丸站轉地鐵。",dur:"40 分鐘"},
+{t:"17:15",tp:"sh",n:"京都車站 伊勢丹 / 拉麵小路",b:"伴手禮 + 晚餐",d:"伴手禮必買：阿闍梨餅（5–7 天保存期限）、生八橋（本家西尾八ッ橋）、辻利抹茶、中村藤吉茶葉。晚餐：拉麵小路（推薦ますたに背脂醬油拉麵）或伊勢丹 11F 和牛壽司。",tr:[],tip:"阿闍梨餅保存期限短，最後一天帶回台灣最新鮮。",dur:"1.5 小時"},
+{t:"18:00",tp:"m",n:"京都站 → 返回大阪",b:"JR 新快速，約 30 分，¥570",d:"從 JR 京都站搭新快速返回大阪站，再換地鐵回 Ocean Tsutenkaku。",tr:["JR 京都線新快速「京都→大阪」約 30 分，¥570","地鐵「梅田→動物園前」約 10 分"],tip:"",dur:"40 分鐘"},
 ]},
-{n:6,l:"第6天",c:"osaka",cl:"大阪",t:"難波神社・四天王寺・木津市場",note:"大阪在地一天，三個景點都在 Ocean Tsutenkaku 步行或短地鐵距離內，今天是最輕鬆的一天。",
+{n:6,l:"第六天",c:"osaka",cl:"大阪",t:"勝尾寺 & 大阪在地",note:"早起木津市場（注意週日公休），上午出發勝尾寺達摩祈願，下午返城逛通天閣新世界，晚上在飯店旁吃最後一頓串炸。",
 items:[
-{t:"06:30",tp:"f",n:"木津市場早市",b:"大阪在地批發市場，海鮮丼早餐",d:"木津市場是大阪傳統批發市場，比黑門更在地、觀光客更少，價格更實惠。早上 6 點開始，可以吃到便宜又新鮮的海鮮丼當早餐。",tr:["Ocean Tsutenkaku 步行約 10 分","地鐵「大國町站」步行 5 分"],tip:"⚠️ 木津市場週三、週日公休！出發前務必確認日期。建議 7:00–10:00 之間到，現金為主。",dur:"1–1.5 小時"},
-{t:"09:00",tp:"s",n:"難波八阪神社",b:"巨大獅頭拜殿，大阪最獨特的神社",d:"難波八阪神社以高達 12 公尺的巨大獅頭型拜殿（獅子殿）聞名，象徵吞噬惡運帶來好運，造型震撼，是大阪最有個性的神社。",tr:["Ocean Tsutenkaku 步行約 15 分","地鐵「難波站」步行 5 分"],tip:"免費參拜，人潮比京都神社少很多，可以從各角度悠閒拍照。",dur:"30–45 分鐘"},
-{t:"10:30",tp:"s",n:"四天王寺",b:"日本最古老佛寺之一，聖德太子所建",d:"四天王寺建於 593 年，是日本現存最古老寺院之一。五重塔莊嚴壯觀，境內寬廣綠意豐富，是很好的散步空間。",tr:["Ocean Tsutenkaku 步行約 15–20 分","地鐵谷町線「四天王寺前夕陽丘站」步行 5 分"],tip:"境內免費，中心伽藍需 ¥500。每月 21、22 日有廟會市集（骨董市），遇到一定要來。",dur:"1–1.5 小時"},
-{t:"12:30",tp:"f",n:"天王寺周邊午餐",b:"天王寺 MIO 百貨或在地食堂",d:"四天王寺附近有許多在地食堂和定食屋，或到天王寺 MIO 百貨地下樓層，選擇豐富多元。",tr:["四天王寺步行 10 分至天王寺站"],tip:"阿倍野 Harukas（日本最高百貨，300 公尺）今天有多餘時間可以順道上去，門票 ¥2,000。",dur:"1 小時"},
-{t:"14:00",tp:"s",n:"通天閣 & 新世界",b:"飯店旁昭和老街，最後好好逛一圈",d:"今天是最後一晚住 Ocean Tsutenkaku，好好逛一圈飯店門口的新世界！通天閣展望台、串炸老舖、復古遊戲中心，感受大阪最有昭和情懷的街區。",tr:["Ocean Tsutenkaku 步行 2 分鐘"],tip:"通天閣展望台門票 ¥1,000。旁邊有比利肯（幸運之神）雕像，摸腳可以帶來好運，全家人一起摸！",dur:"1.5–2 小時"},
-{t:"17:00",tp:"f",n:"新世界串炸晚餐",b:"最後一頓在 Ocean Tsutenkaku 旁的串炸",d:"明天就要離開 Ocean Tsutenkaku，最後一晚在新世界好好享用串炸晚餐，配生啤酒道別大阪最有人情味的街區。",tr:[],tip:"推薦：八重勝（最老牌，需排隊）、だるま（多家分店方便）。沾醬只能沾一次！",dur:"1.5 小時"},
-{t:"深夜",tp:"h",n:"最後一夜 Ocean Tsutenkaku",b:"明天退房移往臨空城",d:"整理行李準備明天退房。確認臨空城飯店預訂和 check-in 時間。",tr:[],tip:"",dur:"—"},
+{t:"07:00",tp:"f",n:"木津市場早市",b:"大阪在地批發市場，海鮮丼早餐",d:"木津市場是大阪傳統批發市場，比黑門更在地，價格實惠。早上 6 點開始，可以吃到便宜又新鮮的海鮮丼。",tr:["Ocean Tsutenkaku 步行約 10 分","地鐵「大國町站」步行 5 分"],tip:"⚠️ 木津市場週日公休！5/11 若為週日請改其他早餐（鬆餅・松屋・MAZE CAFE SHINSEKAI）。",dur:"1–1.5 小時"},
+{t:"09:00",tp:"m",n:"出發勝尾寺",b:"御堂筋線→箕面萱野站→阪急巴士 29 號",d:"從惠美須町/動物園前站搭御堂筋線（往北，往箕面萱野站方向）至終點站「箕面萱野站」下車，找阪急巴士 29 號站牌，於「勝尾寺站」下車。",tr:["御堂筋線至「箕面萱野站」（終點）約 45 分","阪急巴士 29 號→勝尾寺站 約 15 分"],tip:"⚠️ 重要：若趕不上巴士，從箕面萱野站搭計程車約 15 分（¥2,500–3,000），2–3 人搭更划算。",dur:"1.5 小時"},
+{t:"11:00",tp:"s",n:"勝尾寺",b:"達摩祈願名所，境內費 ¥400",d:"勝尾寺是著名的達摩（だるま）祈願名所，境內擺滿無數小達摩非常壯觀，求勝運、求心願特別靈驗。綠意環繞，空氣清新。",tr:[],tip:"境內入場費 ¥400。勝尾寺的達摩是眼睛空白的，祈願時填入一隻眼，願望成真再填另一隻。",dur:"1.5 小時"},
+{t:"13:30",tp:"m",n:"返回大阪",b:"原路搭巴士+御堂筋線，約 1.5 小時",d:"從勝尾寺站搭巴士返回箕面萱野，再搭御堂筋線回到惠美須町/難波一帶，約 15:00 回到飯店。",tr:["阪急巴士→箕面萱野站→御堂筋線至惠美須町"],tip:"",dur:"1.5 小時"},
+{t:"15:30",tp:"s",n:"通天閣 & 新世界",b:"昭和情懷老街，最後好好逛一圈",d:"今天是最後一晚住 Ocean Tsutenkaku，好好逛一圈飯店門口的新世界！通天閣展望台、串炸老舖、復古遊戲中心。",tr:["Ocean Tsutenkaku 步行 2 分鐘"],tip:"通天閣展望台門票 ¥1,000。旁邊比利肯（幸運之神）雕像，摸腳可帶來好運，全家一起摸！",dur:"2 小時"},
+{t:"18:00",tp:"f",n:"新世界串炸晚餐",b:"最後一頓，最後一次沾醬",d:"明天就要離開 Ocean Tsutenkaku，最後一晚在新世界好好享用串炸晚餐，配生啤酒道別大阪最有人情味的街區。",tr:[],tip:"推薦：八重勝（最老牌，需排隊）、だるま（多家分店方便）。沾醬只能沾一次！",dur:"1.5 小時"},
 ]},
-{n:7,l:"第7天",c:"rinku",cl:"臨空城",t:"臨空城 Premium Outlets",note:"早上在大阪輕鬆用餐補買伴手禮，下午前往臨空城逛 Premium Outlets，晚上住機場旁，明天輕鬆出發。",
+{n:7,l:"第七天",c:"rinku",cl:"臨空城",t:"臨空城 Premium Outlets",note:"早上在大阪輕鬆用餐補買伴手禮，下午前往臨空城逛 Premium Outlets，晚上住機場旁，明天輕鬆出發。",
 items:[
-{t:"早上",tp:"h",n:"Ocean Tsutenkaku 退房",b:"整理行李，確認護照機票",d:"今天退房搬往臨空城。如果行李多，可提前用「宅急便」把大件行李寄送到機場（約 ¥1,500–2,000/件），自己輕裝搭電車。",tr:[],tip:"宅急便寄送到機場要提前一天預約，可請飯店前台協助。",dur:"1 小時"},
-{t:"10:30",tp:"f",n:"新世界或難波早午餐",b:"最後在大阪市區用餐",d:"退房後在 Ocean Tsutenkaku 附近或難波找個喜歡的咖啡館或早餐店，悠閒享用最後一頓大阪市區餐。",tr:[],tip:"若有想買但還沒買到的伴手禮，難波的唐吉訶德或藥妝店補最後一次購。",dur:"1 小時"},
-{t:"12:30",tp:"m",n:"難波 → 臨空城",b:"南海電鐵直達，約 35 分鐘",d:"搭南海電鐵從難波出發，約 35 分鐘可達りんくうタウン站，臨空城 Premium Outlets 就在站旁步行 5 分鐘。",tr:["南海電鐵「難波→りんくうタウン」約 35 分，¥930"],tip:"先到飯店 check-in 放行李再去逛，輕鬆很多。",dur:"35 分鐘"},
-{t:"13:30",tp:"sh",n:"りんくうプレミアム・アウトレット",b:"近 230 家品牌，機場旁最後購物",d:"臨空城 Premium Outlets 是關西最大的 Outlet 購物中心，約 230 家品牌，從運動品牌（Nike、Adidas）到精品（Coach、Michael Kors）都有。緊鄰關西機場，是最後採購的絕佳地點。",tr:["りんくうタウン站步行 5 分鐘"],tip:"入口服務台可索取外國旅客優惠券，額外再打折。退稅請在各店結帳時出示護照。營業時間 10:00–20:00。",dur:"3–4 小時"},
-{t:"18:00",tp:"f",n:"臨空城晚餐",b:"Outlets 美食廣場或附近餐廳",d:"Outlets 內有多家餐廳和美食廣場，今晚輕鬆結束，明天早起出發機場。",tr:[],tip:"",dur:"1 小時"},
-{t:"深夜",tp:"h",n:"臨空城附近飯店",b:"靠近關西機場，明天輕鬆出發",d:"推薦：APA Hotel 泉佐野站前、Dormy Inn 關西機場，或機場內的 Hotel Nikko Kansai Airport（明天走路就到航廈，最輕鬆）。",tr:[],tip:"住機場內飯店的話，明天早上不用再搭電車，直接走去航廈，Day 8 最省事。",dur:"—"},
+{t:"08:00",tp:"f",n:"早餐：MAZE CAFE SHINSEKAI",b:"新世界，🈺 08:00 開",d:"",tr:[],tip:"",dur:"—"},
+{t:"09:30",tp:"h",n:"Ocean Tsutenkaku 退房",b:"整理行李，確認護照機票",d:"大件行李可提前用「宅急便」寄送到關西機場（約 ¥1,500–2,000/件），自己輕裝搭電車。",tr:[],tip:"宅急便寄送到機場要提前一天預約，可請飯店前台協助。",dur:"1 小時"},
+{t:"10:30",tp:"sh",n:"難波最後補購伴手禮",b:"唐吉訶德・藥妝店",d:"退房後在難波找最後想買的伴手禮，唐吉訶德或藥妝店補最後一次購。",tr:[],tip:"",dur:"1 小時"},
+{t:"12:30",tp:"m",n:"難波 → 臨空城",b:"南海電鐵直達，約 35 分鐘",d:"搭南海電鐵從難波出發，約 35 分鐘可達りんくうタウン站，臨空城 Premium Outlets 步行 5 分鐘。",tr:["南海電鐵「難波→りんくうタウン」約 35 分，¥930"],tip:"先到飯店 check-in 放行李再去逛，輕鬆很多。",dur:"35 分鐘"},
+{t:"13:30",tp:"sh",n:"りんくうプレミアム・アウトレット",b:"近 230 家品牌，機場旁最後購物",d:"臨空城 Premium Outlets 是關西最大的 Outlet 購物中心，約 230 家品牌，從運動品牌（Nike、Adidas）到精品（Coach、Michael Kors）都有。",tr:["りんくうタウン站步行 5 分"],tip:"入口服務台可索取外國旅客優惠券，額外再打折。退稅請在各店結帳時出示護照。🈺 10:00–20:00。",dur:"3–4 小時"},
+{t:"18:00",tp:"f",n:"臨空城晚餐",b:"Outlets 美食廣場或附近餐廳",d:"",tr:[],tip:"",dur:"1 小時"},
+{t:"深夜",tp:"h",n:"入住 大阪機場奧德西斯套房酒店",b:"〒598-0048 大阪府泉佐野市りんくう往来北 1",d:"緊鄰臨空城，距關西機場非常近，明天無需趕路。",tr:[],tip:"住這裡明天去機場超輕鬆，南海電鐵僅 5 分。",dur:"—"},
 ]},
-{n:8,l:"第8天",c:"tr",cl:"回程",t:"返程 ✈ 台灣見",note:"中午前抵達關西機場，完成退稅和登機手續，帶著滿滿的關西回憶飛回台灣！",
+{n:8,l:"第八天",c:"tr",cl:"回程",t:"返程 · 平安回家",note:"中午前抵達關西機場，完成退稅和登機手續，帶著滿滿的關西回憶飛回台灣。",
 items:[
-{t:"早上",tp:"h",n:"飯店早餐 & 退房",b:"確認護照・機票・退稅收據",d:"最後早晨確認：護照、電子機票截圖、免稅購物收據。整理好行李，準備出發。",tr:[],tip:"退稅分兩種：①消費時已直接免稅（不需再辦）②持紙本退稅單在機場安檢前退現金。確認自己是哪一種。",dur:"1 小時"},
-{t:"09:00",tp:"m",n:"前往關西國際機場",b:"住臨空城的話超近，約 10 分！",d:"從臨空城附近飯店搭南海電鐵前往關西機場，約 5–10 分鐘搞定。住機場內飯店的話直接走過去即可。",tr:["南海電鐵「りんくうタウン→關西空港」約 5 分，¥360","住機場內飯店：步行至第一/第二航廈即可"],tip:"比起從大阪市區出發，今天的機場交通超輕鬆，這就是最後一晚住臨空城的好處！",dur:"10–20 分鐘"},
-{t:"10:00",tp:"ap",n:"關西機場：check-in & 退稅",b:"行李托運 → 退稅 → 安檢 → 免稅區",d:"流程：①航空公司 check-in 柜台辦行李托運 → ②退稅窗口（安檢前）→ ③過安檢 → ④免稅區最後掃貨 → ⑤候機室等待登機。",tr:[],tip:"關西機場免稅區有大丸、ANA FESTA，零食伴手禮選擇超豐富，可以在這最後補購遺漏的伴手禮。",dur:"1.5–2 小時"},
-{t:"中午",tp:"ap",n:"起飛！旅程圓滿結束 🛫",b:"帶著滿滿的大阪回憶飛回台灣",d:"關西機場飛台灣約 2.5–3 小時。下次可以考慮延伸：奈良鹿公園（大阪一日來回）、有馬溫泉（神戶後山泡湯）、姬路城（神戶再往西 30 分）。",tr:[],tip:"",dur:"—"},
+{t:"早上",tp:"h",n:"飯店早餐 & 退房",b:"確認護照・機票・退稅收據",d:"最後早晨確認：護照、電子機票截圖、免稅購物收據。退稅分兩種：①消費時已直接免稅（不需再辦）②持紙本退稅單在機場安檢前退現金。確認自己是哪一種。",tr:[],tip:"",dur:"1 小時"},
+{t:"09:00",tp:"m",n:"前往關西國際機場",b:"南海電鐵，約 5 分鐘",d:"從臨空城附近飯店搭南海電鐵前往關西機場，約 5–10 分鐘搞定。",tr:["南海電鐵「りんくうタウン→關西空港」約 5 分，¥360"],tip:"這就是最後一晚住臨空城的好處！",dur:"10 分鐘"},
+{t:"10:00",tp:"ap",n:"機場：Check-in & 退稅",b:"行李托運 → 退稅 → 安檢 → 免稅區",d:"流程：①航空公司 check-in 辦行李托運 → ②退稅窗口（安檢前）→ ③過安檢 → ④免稅區最後掃貨 → ⑤候機室等待登機。",tr:[],tip:"關西機場免稅區有大丸・ANA FESTA，零食伴手禮選擇豐富，可以在這最後補購。",dur:"1.5–2 小時"},
+{t:"11:15",tp:"ap",n:"IT211 起飛・旅程圓滿",b:"關西 T1 11:15 → 桃機 T1 13:10",d:"關西機場飛台灣約 2.5 小時。下次可以考慮延伸：奈良鹿公園（大阪一日來回）、有馬溫泉（神戶後山泡湯）、姬路城（神戶再往西 30 分）。",tr:[],tip:"",dur:"—"},
 ]},
 ];
 
@@ -173,7 +421,7 @@ const panes=document.getElementById('panes');
 D.forEach((day,i)=>{
   const tab=document.createElement('button');
   tab.className='tab'+(i===0?' on':'');
-  tab.innerHTML=day.l+`<small class="${day.c}">${day.cl}</small>`;
+  tab.innerHTML=`${day.l}<small class="${day.c}">${day.cl}</small>`;
   tab.onclick=()=>{
     document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',j===i));
     document.querySelectorAll('.pane').forEach((p,j)=>p.classList.toggle('on',j===i));
@@ -183,6 +431,7 @@ D.forEach((day,i)=>{
 
   const pane=document.createElement('div');
   pane.className='pane'+(i===0?' on':'');
+
   const its=day.items.map((it,j)=>`
     <div class="item" id="x${i}_${j}" onclick="tog(${i},${j})">
       <div class="il">
@@ -193,29 +442,46 @@ D.forEach((day,i)=>{
         </div>
       </div>
       <div class="im">
-        <h3>${it.n}</h3>
-        <p>${it.b}</p>
-        ${it.dur&&it.dur!=='—'?`<span class="dur">⏱ ${it.dur}</span>`:''}
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1">
+            <h3>${it.n}<span class="arrow">▾</span></h3>
+            ${it.b?`<p>${it.b}</p>`:''}
+            ${it.dur&&it.dur!=='—'?`<span class="dur">◷ ${it.dur}</span>`:''}
+          </div>
+        </div>
         <div class="detail">
-          ${it.d?`<p class="desc" style="margin-top:8px">${it.d}</p>`:''}
-          ${it.tr&&it.tr.length?`<div style="margin-top:6px"><div class="lb">交通方式</div><div class="box">${it.tr.map(r=>`<div>→ ${r}</div>`).join('')}</div></div>`:''}
+          ${it.d?`<p class="desc">${it.d}</p>`:''}
+          ${it.tr&&it.tr.length?`
+            <div style="margin-top:8px">
+              <div class="lb">交通</div>
+              <div class="box">${it.tr.map(r=>`<div>${r}</div>`).join('')}</div>
+            </div>`:''}
           ${it.tip?`<div class="tip">💡 ${it.tip}</div>`:''}
         </div>
       </div>
     </div>`).join('');
+
   pane.innerHTML=`
     <div class="hero">
       <div class="hero-row">
-        <div><div class="dn">Day ${day.n} / 8</div><h2>${day.t}</h2></div>
+        <div>
+          <div class="hero-dn">Day ${day.n} of 8 &nbsp;·&nbsp; ${['抵達','大阪','神戶','京都','京都','大阪','臨空城','回程'][i]}</div>
+          <h2>${day.t}</h2>
+        </div>
         <span class="badge ${day.c}">${day.cl}</span>
       </div>
-      <p>${day.note}</p>
+      <p class="hero-note">${day.note}</p>
     </div>
-    ${its}`;
+    <div style="background:#fff;border:1px solid var(--sumi5);border-radius:2px;overflow:hidden">
+      ${its}
+    </div>`;
+
   panes.appendChild(pane);
 });
 
-function tog(d,i){document.getElementById(`x${d}_${i}`).classList.toggle('on');}
+function tog(d,i){
+  document.getElementById(`x${d}_${i}`).classList.toggle('on');
+}
 </script>
 </body>
 </html>
